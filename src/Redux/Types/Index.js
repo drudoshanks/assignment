@@ -1,0 +1,11 @@
+
+const ADD_FRIEND = 'ADD_FRIEND';
+const IS_INTERNET = 'IS_INTERNET';
+
+
+
+export {
+  ADD_FRIEND,
+  IS_INTERNET
+
+};
