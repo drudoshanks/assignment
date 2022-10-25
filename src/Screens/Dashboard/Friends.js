@@ -20,18 +20,13 @@ const Friends = ({ navigation }) => {
         const abortController = new AbortController()
         const config = {
             method: 'GET',
-            signal: abortController.signal
-            // headers: { 'Authorization': `Bearer ${token}` }
+            headers: { 'Content-Type': 'application/json' },
         }
         fetch(`https://rnapp-mock-developer-edition.ap24.force.com/services/apexrest/apiservice`, config)
-            .then(res => {
-                console.log(res.status);
-                res.json()
-            }).then(response => {
-
-                setIsLoading(false)
-                // console.log("getFriendsList-response", response);
-                setFriends(response)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                // console.log(responseJson)
+                updateFriendsList(responseJson);
             }).catch(err => {
                 console.log("getFriendsList-err", err)
                 setIsLoading(false)
@@ -39,13 +34,15 @@ const Friends = ({ navigation }) => {
             })
 
         return () => {
+            setIsLoading(null)
+            setFriends([])
             abortController.abort()
         }
     }, [])
 
-    const getFriendsList = async () => {
-
-
+    const updateFriendsList =  (responseJson) => {
+        setIsLoading(false)
+        setFriends(responseJson)
     }
 
     return (

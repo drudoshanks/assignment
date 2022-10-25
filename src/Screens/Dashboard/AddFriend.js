@@ -54,19 +54,30 @@ const AddFriend = ({ navigation, route }) => {
                         Last_Name__c: lName,
                         Age__c: age
                     }
+                    
 
                     const config = {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify(data)
+                        body: JSON.stringify([data])
                     };
-                    const response = await fetch(`https://rnapp-mock-developer-edition.ap24.force.com/services/apexrest/apiservice`, config)
-                    const Jsonresponse = await response.json();
-                    console.log(response.status);
-                    console.log('addFriend-response', Jsonresponse);
-                    setIsLoading(false)
+                    // const response = await fetch(`https://rnapp-mock-developer-edition.ap24.force.com/services/apexrest/apiservice`, config)
+                    // const Jsonresponse = await response.json();
+                    // console.log(response.status);
+                    // console.log('addFriend-response', Jsonresponse);
+
+                    fetch(`https://rnapp-mock-developer-edition.ap24.force.com/services/apexrest/apiservice`, config)
+                        .then((response) => response.json())
+                        .then((responseJson) => {
+                            console.log(responseJson)
+                            setIsLoading(false)
+                        }).catch(err => {
+                            setIsLoading(false)
+            
+                        })
+                    
 
                 } catch (error) {
                     setIsLoading(false)
@@ -115,7 +126,6 @@ const AddFriend = ({ navigation, route }) => {
 
 
             <View style={{ paddingTop: 15, paddingHorizontal: 16 }}>
-                <KeyboardAwareScrollView>
                     <InputField
                         onChangeText={val => setFname(val)}
                         value={fName}
@@ -156,7 +166,6 @@ const AddFriend = ({ navigation, route }) => {
                     />
 
                     <ContainedButton style={{ marginTop: 30 }} isLoading={isLoading} onPress={() => AddFriend()} />
-                </KeyboardAwareScrollView>
 
             </View>
 
